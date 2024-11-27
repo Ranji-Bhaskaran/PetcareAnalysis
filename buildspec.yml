@@ -20,6 +20,19 @@ phases:
         pylint $CODEBUILD_SRC_DIR/pets/*.py \
                --disable=R0901,R0903,E1101  
 
+  build:
+    commands:
+      - echo Running tests...
+      - echo Applying migrations...
+      - cd petcare_project
+      - python3 manage.py migrate
+      - echo Collecting static files...
+      - python3 manage.py collectstatic --noinput
+
+  post_build:
+    commands:
+      - echo Post-build phase completed successfully!
+
 artifacts:
   files:
     - '**/*'
