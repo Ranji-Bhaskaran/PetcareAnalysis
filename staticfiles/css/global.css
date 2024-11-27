@@ -1,0 +1,58 @@
+/* global.css */
+
+/* Container Styling */
+.container {
+    max-width: 800px; /* Limit the width for better readability */
+    margin: auto; /* Center the container */
+}
+
+/* Headings */
+h1 {
+    font-size: 2.5rem;
+    color: #007bff; /* Bootstrap primary color */
+}
+
+.text-center {
+    text-align: center; /* Center align text */
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #007bff; /* Bootstrap primary color */
+    border: none; /* Remove default border */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* Bootstrap secondary color */
+    color: white; /* White text */
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Darker shade on hover */
+}
+
+/* Pet List Item Styling */
+.list-unstyled {
+    padding: 0; /* Remove default padding */
+}
+
+.list-unstyled li {
+    border: 1px solid #dee2e6; /* Light border around items */
+    border-radius: 0.25rem; /* Rounded corners */
+    padding: 10px; /* Padding around each item */
+    margin-bottom: 15px; /* Space between items */
+    background-color: #f8f9fa; /* Light background */
+}
+
+.alert {
+    margin: 20px 0; /* Space around alerts */
+}
+
+/* Images */
+img {
+    border-radius: 0.5rem; /* Rounded corners for images */
+}

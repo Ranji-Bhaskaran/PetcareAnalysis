@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Edit Pet Details</h2>
+    
+    {% if messages %}
+        <div class="alert alert-success">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="pet_name">Pet Name</label>
+            {{ form.name }}
+            {{ form.name.errors }}
+        </div>
+        
+        <div class="form-group">
+            <label for="pet_breed">Breed</label>
+            {{ form.breed }}
+            {{ form.breed.errors }}
+        </div>
+
+        <div class="form-group">
+            <label for="pet_age">Age</label>
+            {{ form.age }}
+            {{ form.age.errors }}
+        </div>
+
+        <div class="form-group">
+            <label for="pet_weight">Weight (kg)</label>
+            {{ form.weight }}
+            {{ form.weight.errors }}
+        </div>
+
+        <div class="form-group">
+            <label for="pet_image">Pet Image</label>
+            {{ form.image }}
+            {{ form.image.errors }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Pet</button>
+        <a href="{% url 'pet_list' %}" class="btn btn-secondary">Cancel</a> <!-- Redirect to pet list -->
+    </form>
+</div>
+{% endblock %}

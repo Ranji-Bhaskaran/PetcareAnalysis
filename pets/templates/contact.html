@@ -1,0 +1,26 @@
+
+{% load static %}  <!-- Load static files at the beginning -->
+
+    <link rel="stylesheet" href="{% static 'css/contact_style.css' %}">  <!-- Include the CSS file -->
+
+    <div class="container my-5">
+        <h1 class="text-center">Contact Us</h1>
+
+        {% if messages %}
+            <ul class="messages list-unstyled">
+                {% for message in messages %}
+                    <li class="alert {{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form method="POST" class="mt-4">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+
+        <p class="text-center mt-3">Back to <a href="{% url 'pet_list' %}">Home</a></p>
+    </div>

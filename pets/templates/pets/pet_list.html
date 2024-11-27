@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Pets{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center" style="font-family: 'Arial', sans-serif; font-weight: bold; color: #2c3e50;">
+        Welcome, {{ user.username }}! Here are your pets:
+    </h1>
+
+    {% if pet_data %}
+        <div class="row mt-4">
+            {% for entry in pet_data %}
+                {% with pet=entry.pet %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm" 
+                             style="border-radius: 15px; transition: transform 0.3s ease, box-shadow 0.3s ease; overflow: hidden; 
+                                    background: linear-gradient(135deg, #fdfbfb, #ebedee);"
+                             onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(0, 0, 0, 0.2)';"
+                             onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 10px rgba(0, 0, 0, 0.15)';">
+                            {% if pet.image %}
+                                <img src="{{ pet.image.url }}" alt="{{ pet.name }}" class="card-img-top" 
+                                     style="height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;">
+                            {% else %}
+                                <div class="card-img-top d-flex align-items-center justify-content-center" 
+                                     style="height: 200px; background-color: #f8f9fa; border-radius: 15px 15px 0 0;">
+                                    <span style="color: #7f8c8d; font-size: 1.2em;">No image available</span>
+                                </div>
+                            {% endif %}
+                            <div class="card-body" style="padding: 20px;">
+                                <h5 class="card-title" style="font-size: 1.5em; color: #34495e; font-weight: bold;">
+                                    {{ pet.name }}
+                                </h5>
+                                <p class="card-text" style="font-size: 1em; color: #7f8c8d;">
+                                    <strong>Breed:</strong> {{ pet.breed }}<br>
+                                    <strong>Age:</strong> {{ pet.age }} years<br>
+                                    <strong>Weight:</strong> {{ pet.weight }} kg
+                                </p>
+
+                                <!-- Pie Chart Container -->
+                                <canvas id="activityChart-{{ pet.id }}" width="200" height="200"></canvas>
+
+                                <!-- Display health log messages -->
+                                <div class="mt-3" style="font-size: 0.9em; color: #555;">
+                                    <strong>Health Reminders:</strong>
+                                    {% if pet.healthlog_set.exists %}
+                                        {% with latest_log=pet.healthlog_set.last %}
+                                            {% if latest_log.rabies == 'yes' and latest_log.deworming == 'yes' %}
+                                                <p>{{ pet.name }} is fully up-to-date on vaccinations and deworming.</p>
+                                            {% elif latest_log.rabies == 'yes' %}
+                                                <p>{{ pet.name }} has been vaccinated, but deworming is due.</p>
+                                            {% elif latest_log.deworming == 'yes' %}
+                                                <p>{{ pet.name }} has been dewormed, but vaccinations are due.</p>
+                                            {% else %}
+                                                <p>{{ pet.name }} needs vaccinations and deworming.</p>
+                                            {% endif %}
+                                        {% endwith %}
+                                    {% else %}
+                                        <p>No health records available for {{ pet.name }}.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between" style="background: #f8f9fa;">
+                                <a href="{% url 'edit_pet' pet.id %}" class="btn btn-secondary btn-sm" 
+                                   style="border-radius: 20px; padding: 8px 16px; transition: background-color 0.3s ease;"
+                                   onmouseover="this.style.backgroundColor='#5a6268';"
+                                   onmouseout="this.style.backgroundColor='#6c757d';">
+                                    Edit
+                                </a>
+                                <form action="{% url 'delete_pet' pet.id %}" method="POST" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm" 
+                                            style="border-radius: 20px; padding: 8px 16px; transition: background-color 0.3s ease;"
+                                            onmouseover="this.style.backgroundColor='#c0392b';"
+                                            onmouseout="this.style.backgroundColor='#e74c3c';">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endwith %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center mt-5">
+            <p style="font-size: 1.2em; color: #7f8c8d;">You don't have any pets added yet.</p>
+            <a href="{% url 'add_pet' %}" class="btn btn-success" 
+               style="padding: 10px 30px; font-size: 1.2em; border-radius: 25px; transition: transform 0.3s ease;"
+               onmouseover="this.style.transform='scale(1.1)'; this.style.backgroundColor='#27ae60';"
+               onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='#2ecc71';">
+                Add a Pet
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        {% for entry in pet_data %}
+            var walk = {{ entry.weekly_activity.walk|default:0 }};
+            var play = {{ entry.weekly_activity.play|default:0 }};
+            var groom = {{ entry.weekly_activity.groom|default:0 }};
+            var ctx = document.getElementById('activityChart-{{ entry.pet.id }}').getContext('2d');
+            
+            if (walk === 0 && play === 0 && groom === 0) {
+                ctx.canvas.style.display = 'none';
+                ctx.canvas.insertAdjacentHTML('afterend', 
+                    `<p style="color: #7f8c8d; text-align: center; margin-top: 10px; font-size: 0.9em;">No activity data for {{ entry.pet.name }}</p>`);
+                return;
+            }
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Walk', 'Play', 'Groom'],
+                    datasets: [{
+                        label: 'Weekly Activity',
+                        data: [walk, play, groom],
+                        backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let hours = context.raw / 60;
+                                    return `${context.label}: ${hours.toFixed(1)} hrs`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        {% endfor %}
+    });
+</script>
+{% endblock %}

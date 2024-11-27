@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block title %}Global Pet Section{% endblock %}
+
+{% block content %}
+<!-- Importing global.css -->
+<link rel="stylesheet" href="{% static 'css/global.css' %}">
+<style>
+    /* Global Theme Variables */
+    :root {
+        --primary-bg: linear-gradient(135deg, #f6d365, #fda085);
+        --primary-color: #ff6f61;
+        --hover-color: #ff3d3d;
+        --text-color: #333;
+        --white: #fff;
+        --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        --animation-duration: 0.4s;
+    }
+
+    /* Page Background */
+    body {
+        background: var(--primary-bg);
+        background-attachment: fixed;
+        background-size: cover;
+        color: var(--text-color);
+    }
+
+    /* Title Styling */
+    h1.text-center {
+        font-family: 'Roboto', sans-serif;
+        color: var(--white);
+        font-weight: bold;
+        animation: fadeIn var(--animation-duration) ease-in-out;
+    }
+
+    /* Form Styling */
+    form {
+        max-width: 500px;
+        margin: 0 auto;
+        animation: slideIn var(--animation-duration) ease-in-out;
+    }
+    form input {
+        border: 2px solid var(--primary-color);
+        border-radius: 8px;
+        padding: 10px;
+    }
+    form .btn-primary {
+        background: var(--primary-color);
+        border: none;
+        transition: transform 0.3s, background-color 0.3s;
+    }
+    form .btn-primary:hover {
+        background: var(--hover-color);
+        transform: translateY(-2px);
+    }
+    form .btn-secondary {
+        background: #ccc;
+        color: var(--text-color);
+        border: none;
+        margin-left: 5px;
+    }
+
+    /* Card Styling */
+    .card {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+        transition: transform 0.3s, box-shadow 0.3s;
+        animation: fadeInUp var(--animation-duration) ease-in-out;
+    }
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+    .card-img-top {
+        border-bottom: 3px solid var(--primary-color);
+    }
+    .card-body h5 {
+        font-family: 'Roboto', sans-serif;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+    .card-body p {
+        line-height: 1.6;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Empty State Styling */
+    .text-center p {
+        font-family: 'Roboto', sans-serif;
+        font-weight: bold;
+        color: var(--white);
+        background: rgba(0, 0, 0, 0.3);
+        padding: 10px 20px;
+        border-radius: 12px;
+        animation: fadeIn var(--animation-duration) ease-in-out;
+    }
+</style>
+
+<div class="container my-5">
+    <h1 class="text-center">Global Pet Section</h1>
+    <p class="text-center">Explore pets registered by other owners:</p>
+
+    <!-- Search Form -->
+    <form method="GET" action="{% url 'global' %}" class="mb-3">
+        <input type="text" name="q" value="{{ query }}" placeholder="Search for pets..." class="form-control" required>
+        <button type="submit" class="btn btn-primary mt-2">Search</button>
+        
+        <!-- Clear Search Button: only visible when there's a query -->
+        {% if query %}
+            <a href="{% url 'global' %}" class="btn btn-secondary mt-2">Clear Search</a>
+        {% endif %}
+    </form>
+
+    {% if no_results %}
+        <div class="alert alert-warning" role="alert">
+            No pets found matching your search criteria.
+        </div>
+    {% endif %}
+
+    {% if global_pets %}
+        <div class="row mt-4">
+            {% for pet in global_pets %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        {% if pet.image %}
+                            <img src="{{ pet.image.url }}" alt="{{ pet.name }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 200px; background-color: #f8f9fa;">
+                                <span>No image available</span>
+                            </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ pet.name }}</h5>
+                            <p class="card-text">
+                                <strong>Owner:</strong> {{ pet.owner.username }}<br>
+                                <strong>Breed:</strong> {{ pet.breed }}<br>
+                                <strong>Age:</strong> {{ pet.age }} years<br>
+                                <strong>Weight:</strong> {{ pet.weight }} kg
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center mt-5">
+            <p>No pets are available at the moment.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

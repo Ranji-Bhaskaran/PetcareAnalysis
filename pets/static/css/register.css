@@ -1,0 +1,76 @@
+body {
+    font-family: 'Comfortaa', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.background {
+    background-image: url('../images/dog1.jpg');
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 350px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 40px; /* Increased padding */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+h2 {
+    margin: 20px 0; /* Added margin */
+    color: #333;
+}
+
+input {
+    width: 100%;
+    font-size: 16px;
+    padding: 5px;
+    margin: 15px 0; /* Increased margin */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 12px; /* Slightly increased padding */
+    font-size: 18px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+p {
+    margin-top: 20px;
+    color: #333;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 500px) {
+    .container {
+        width: 90%;
+    }
+}

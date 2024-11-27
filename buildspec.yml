@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - echo Installing dependencies...
+      - pip install --upgrade pip
+      - pip install -r requirements.txt
+      - pip install pylint pytest
+
+  pre_build:
+    commands:
+      - echo Pre-build phase...
+      - python --version
+      - pylint $CODEBUILD_SRC_DIR/*.py
+      - pylint $CODEBUILD_SRC_DIR/petcare_project/*.py
+      - |
+        pylint $CODEBUILD_SRC_DIR/pets/*.py \
+               --disable=R0901,R0903,E1101  
+
+artifacts:
+  files:
+    - '**/*'
