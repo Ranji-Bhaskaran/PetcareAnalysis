@@ -44,7 +44,8 @@ CSRF_TRUSTED_ORIGINS = [
 ALLOWED_HOSTS = [
     'x23271957PetcareAnalysisFinal-env.eba-2mfmpjqd.eu-west-1.elasticbeanstalk.com',
     '172.31.12.199',
-    '127.0.0.1', '54.171.140.105', '8873a462cdc54ca4a0b0438595fff4a9.vfs.cloud9.eu-west-1.amazonaws.com']
+    '127.0.0.1', '54.171.140.105',
+    '8873a462cdc54ca4a0b0438595fff4a9.vfs.cloud9.eu-west-1.amazonaws.com']
 
 
 # Application definition
