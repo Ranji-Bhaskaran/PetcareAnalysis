@@ -38,12 +38,13 @@ TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN', default=os.environ.get('TELEGR
 CSRF_TRUSTED_ORIGINS = [
     'https://x23271957PetcareAnalysisFinal-env.eba-2mfmpjqd.eu-west-1.elasticbeanstalk.com',
     'https://172.31.12.199', 'http://172.31.12.199','https://172.0.0.1', 'https://54.171.140.105',
-    'http://54.171.140.105']
+    'http://54.171.140.105',
+    'https://8873a462cdc54ca4a0b0438595fff4a9.vfs.cloud9.eu-west-1.amazonaws.com']
 
 ALLOWED_HOSTS = [
     'x23271957PetcareAnalysisFinal-env.eba-2mfmpjqd.eu-west-1.elasticbeanstalk.com',
     '172.31.12.199',
-    '127.0.0.1', '54.171.140.105']
+    '127.0.0.1', '54.171.140.105', '8873a462cdc54ca4a0b0438595fff4a9.vfs.cloud9.eu-west-1.amazonaws.com']
 
 
 # Application definition
