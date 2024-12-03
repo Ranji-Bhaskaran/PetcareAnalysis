@@ -1,10 +1,10 @@
 version: 0.2
 env:
   secrets-manager:
-    LOGIN: sonar/prod/gushy:sonartoken
-    HOST: sonar/prod/gushy:HOST
-    Organization: sonar/prod/gushy:Organization
-    Project: sonar/prod/gushy:Project
+    LOGIN: prod/sonar/gushy:sonartoken
+    HOST: prod/sonar/gushy:HOST
+    Organization: prod/sonar/gushy:Organization
+    Project: prod/sonar/gushy:Project
 phases:
   install:
     runtime-versions:
