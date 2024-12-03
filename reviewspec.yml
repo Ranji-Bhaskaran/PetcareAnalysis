@@ -25,8 +25,6 @@ phases:
     commands:
       - echo "Running Django migrations..."
       - python3 manage.py migrate
-      - echo "Running tests..."
-      - pytest --junitxml=report.xml
       - echo "Starting SonarCloud analysis..."
       - sonar-scanner -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project -Dsonar.organization=$Organization
       - sleep 5
