@@ -9,6 +9,7 @@ phases:
   install:
     runtime-versions:
       python: 3.9
+      
   pre_build:
     commands:
       - echo "Updating apt and installing required dependencies..."
@@ -37,6 +38,6 @@ phases:
           echo "Quality gate failed. Build failing..."
           exit 1
         else
-          echo "Quality gate passed. Build succeeded."
+          echo "Quality gate passed. Build succeeded. continuing to build stage"
         fi
 
