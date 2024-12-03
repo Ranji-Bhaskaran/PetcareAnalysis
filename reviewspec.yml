@@ -1,31 +1,42 @@
 version: 0.2
 env:
   secrets-manager:
-    LOGIN: prod/sonar/gushy:sonartoken
-    HOST: prod/sonar/gushy:HOST
-    Organization: prod/sonar/gushy:Organization
-    Project: prod/sonar/gushy:Project
+    LOGIN: prod/sonar:sonartoken
+    HOST: prod/sonar:HOST
+    Organization: prod/sonar:Organization
+    Project: prod/sonar:Project
 phases:
   install:
     runtime-versions:
-      java: corretto11
+      python: 3.9
   pre_build:
     commands:
-      - yum update -y
-      - yum install -y epel-release
-      - yum install -y jq
-      - wget https://dlcdn.apache.org/maven/maven-3/3.9.5/binaries/apache-maven-3.9.5-bin.tar.gz
-      - tar xzf apache-maven-3.9.5-bin.tar.gz
-      - ln -s apache-maven-3.9.5 maven
+      - echo "Updating apt and installing required dependencies..."
+      - apt-get update
+      - apt-get install -y jq
+      - echo "Installing project dependencies..."
+      - python3 -m pip install --upgrade pip
+      - pip install -r requirements.txt
       - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip
-      - unzip ./sonar-scanner-cli-4.8.0.2856-linux.zip
-      - export PATH=$PATH:/sonar-scanner-4.8.0.2856-linux/bin/
+      - unzip sonar-scanner-cli-4.8.0.2856-linux.zip
+      - export PATH=$PATH:/sonar-scanner-4.8.0.2856-linux/bin
   build:
     commands:
-      - mvn test     
-      - mvn sonar:sonar -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project -Dsonar.organization=$Organization
+      - echo "Running Django migrations..."
+      - python3 manage.py migrate
+      - echo "Running tests..."
+      - pytest --junitxml=report.xml
+      - echo "Starting SonarCloud analysis..."
+      - sonar-scanner -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project -Dsonar.organization=$Organization
       - sleep 5
+      - echo "Fetching SonarCloud project status..."
       - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project > result.json
       - cat result.json
       - |
-        if [ "$(jq -r '.projectStatus.status' result
+        if [ "$(jq -r '.projectStatus.status' result.json)" = "ERROR" ]; then
+          echo "Quality gate failed. Build failing..."
+          exit 1
+        else
+          echo "Quality gate passed. Build succeeded."
+        fi
+
