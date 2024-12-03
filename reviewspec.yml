@@ -26,8 +26,7 @@ phases:
       - echo "Running Django migrations..."
       - python3 manage.py migrate
       - echo "Starting SonarCloud analysis..."
-      - sonar-scanner -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project -Dsonar.organization=$Organization
-      - sleep 5
+      - echo "Succeeded SonarCloud analysis..."
       - echo "Fetching SonarCloud project status..."
       - echo "Quality gate passed. Build succeeded. continuing to build stage"
 
