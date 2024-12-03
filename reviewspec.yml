@@ -13,8 +13,8 @@ phases:
   pre_build:
     commands:
       - echo "Updating apt and installing required dependencies..."
-      - apt-get update
-      - apt-get install -y jq
+      - yum update -y
+      - yum install -y jq
       - echo "Installing project dependencies..."
       - python3 -m pip install --upgrade pip
       - pip install -r requirements.txt
