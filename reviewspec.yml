@@ -12,15 +12,19 @@ phases:
       
   pre_build:
     commands:
-      - echo "Updating apt and installing required dependencies..."
+      - echo "Updating and installing required dependencies..."
       - yum update -y
-      - yum install -y jq
-      - echo "Installing project dependencies..."
+      - yum install -y jq unzip java-11-openjdk
+      - echo "Installing Python dependencies..."
       - python3 -m pip install --upgrade pip
       - pip install -r requirements.txt
+      - echo "Downloading Sonar Scanner..."
       - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip
       - unzip sonar-scanner-cli-4.8.0.2856-linux.zip
-      - export PATH=$PATH:/sonar-scanner-4.8.0.2856-linux/bin
+      - mv sonar-scanner-4.8.0.2856-linux /usr/local/sonar-scanner
+      - echo 'export PATH=$PATH:/usr/local/sonar-scanner/bin' >> ~/.bashrc
+      - export PATH=$PATH:/usr/local/sonar-scanner/bin
+      - sonar-scanner --version
   build:
     commands:
       - echo "Running Django migrations..."
@@ -36,6 +40,5 @@ phases:
           echo "Quality gate failed. Build failing..."
           exit 1
         else
-          echo "Quality gate passed. Build succeeded. continuing to build stage"
+          echo "Quality gate passed. Build succeeded."
         fi
-
