@@ -12,22 +12,22 @@ def user():
 @pytest.fixture
 def pet(user):
     """Fixture for creating a test pet"""
-    return Pet.objects.create(owner=user, name='Buddy', breed='Golden Retriever', age=3, weight=30.5)
+    return Pet.objects.create(owner=user, name='Buddy', breed='Golden Retriever', age=3, weight=30)
 
 @pytest.mark.django_db
 def test_pet_model(user):
     """Test creating and retrieving a Pet instance"""
-    pet = Pet.objects.create(owner=user, name='Buddy', breed='Golden Retriever', age=3, weight=30.5)
+    pet = Pet.objects.create(owner=user, name='Buddy', breed='Golden Retriever', age=3, weight=30)
     assert str(pet) == 'Buddy'
     assert pet.owner == user
     assert pet.age == 3
-    assert pet.weight == 30.5
+    assert pet.weight == 30
 
 @pytest.mark.django_db
 def test_health_log_model(pet):
     """Test creating and retrieving a HealthLog instance"""
     health_log = HealthLog.objects.create(
-        pet=pet, record_date=date.today(), weight=30.5, rabies='yes', deworming='no'
+        pet=pet, record_date=date.today(), weight=30, rabies='yes', deworming='no'
     )
     assert str(health_log) == f"Health Log for {pet.name} on {health_log.record_date}"
     assert health_log.rabies == 'yes'
@@ -46,10 +46,10 @@ def test_activity_log_model(pet):
 def test_product_model():
     """Test creating and retrieving a Product instance"""
     product = Product.objects.create(
-        name='Pet Collar', description='A durable collar for pets.', price=15.99
+        name='Pet Collar', description='A durable collar for pets.', price=15
     )
     assert str(product) == 'Pet Collar'
-    assert product.price == 15.99
+    assert product.price == 15
 
 @pytest.mark.django_db
 def test_contact_model():
