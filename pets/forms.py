@@ -9,6 +9,11 @@ from django.core.validators import (
     MaxValueValidator)
 from .models import Pet, HealthLog, ActivityLog, ACTIVITY_CHOICES, Product
 
+# Define the constants for the regex pattern and messages
+ALPHABETIC_SPACE_REGEX = r'^[a-zA-Z ]+$'
+VALID_NAME_MESSAGE = "Enter a valid name"
+POSITIVE_WEIGHT_MESSAGE = "Weight must be positive"
+
 class CustomUserCreationForm(UserCreationForm):
     """ Custom Register form """
     email = forms.EmailField(
@@ -44,7 +49,7 @@ class ProductForm(forms.ModelForm):
         }
     name = forms.CharField(
         validators=[MinLengthValidator(2),
-        RegexValidator(r'^[a-zA-Z0-9 ]+$', message="Enter a valid product name")]
+        RegexValidator(ALPHABETIC_SPACE_REGEX, message="Enter a valid product name")]
     )
     description = forms.CharField(
         validators=[MinLengthValidator(10)]
@@ -70,7 +75,7 @@ class AddPetForm(forms.ModelForm):
         }
     name = forms.CharField(
         validators=[MinLengthValidator(2),
-        RegexValidator(r'^[a-zA-Z ]+$', message="Enter a valid name")]
+        RegexValidator(ALPHABETIC_SPACE_REGEX, message=VALID_NAME_MESSAGE)]
     )
     breed = forms.CharField(
         validators=[MinLengthValidator(3)]
@@ -82,7 +87,7 @@ class AddPetForm(forms.ModelForm):
     weight = forms.DecimalField(
         max_digits=5,
         decimal_places=2,
-        validators=[MinValueValidator(0.1, message="Weight must be positive")]
+        validators=[MinValueValidator(0.1, message=POSITIVE_WEIGHT_MESSAGE)]
     )
 
 class EditPetForm(forms.ModelForm):
@@ -99,7 +104,7 @@ class EditPetForm(forms.ModelForm):
         }
     name = forms.CharField(
         validators=[MinLengthValidator(2),
-        RegexValidator(r'^[a-zA-Z ]+$', message="Enter a valid name")]
+        RegexValidator(ALPHABETIC_SPACE_REGEX, message=VALID_NAME_MESSAGE)]
     )
     breed = forms.CharField(
         validators=[MinLengthValidator(3)]
@@ -111,7 +116,7 @@ class EditPetForm(forms.ModelForm):
     weight = forms.DecimalField(
         max_digits=5,
         decimal_places=2,
-        validators=[MinValueValidator(0.1, message="Weight must be positive")]
+        validators=[MinValueValidator(0.1, message=POSITIVE_WEIGHT_MESSAGE)]
     )
 
 class HealthLogForm(forms.ModelForm):
@@ -135,7 +140,7 @@ class HealthLogForm(forms.ModelForm):
     weight = forms.DecimalField(
         max_digits=5,
         decimal_places=2,
-        validators=[MinValueValidator(0.1, message="Weight must be positive")]
+        validators=[MinValueValidator(0.1, message=POSITIVE_WEIGHT_MESSAGE)]
     )
 
 class ActivityLogForm(forms.ModelForm):
@@ -157,7 +162,7 @@ class ContactForm(forms.Form):
     """Form for contact messages"""
     name = forms.CharField(
         max_length=100,
-        validators=[RegexValidator(r'^[a-zA-Z ]+$', message="Enter a valid name")],
+        validators=[RegexValidator(ALPHABETIC_SPACE_REGEX, message=VALID_NAME_MESSAGE)],
         widget=forms.TextInput(attrs={'placeholder': 'Your Name'})
     )
     email = forms.EmailField(
