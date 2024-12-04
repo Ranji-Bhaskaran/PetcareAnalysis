@@ -77,9 +77,9 @@ def logout_view(request):
     messages.success(request, "You have been logged out.")
     return redirect('home')
 
-# No method restriction
+
 @login_required
-def pet_list(request): # Sensitive
+def pet_list(request):
     """List pets owned by the user along with weekly activity summaries."""
     pets = Pet.objects.filter(owner=request.user)
     one_week_ago = timezone.now() - timedelta(days=7)
@@ -123,9 +123,9 @@ def pet_list(request): # Sensitive
 
     return render(request, 'pets/pet_list.html', {'pet_data': pet_data})
 
-# No method restriction
+
 @login_required
-def pet_detail(request, pet_id): # Sensitive
+def pet_detail(request, pet_id):
     """Display details of a specific pet with a weekly activity summary chart."""
     pet = get_object_or_404(Pet, id=pet_id, owner=request.user)
     one_week_ago = timezone.now() - timedelta(days=7)

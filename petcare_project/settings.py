@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID', default=os.environ.get('TWILIO_ACCOUNT_SID'))
 TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN', default=os.environ.get('TWILIO_AUTH_TOKEN'))
@@ -37,8 +37,7 @@ TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN', default=os.environ.get('TELEGR
 
 CSRF_TRUSTED_ORIGINS = [
     'https://x23271957PetcareAnalysisFinal-env.eba-2mfmpjqd.eu-west-1.elasticbeanstalk.com',
-    'https://172.31.12.199', 'http://172.31.12.199','https://172.0.0.1', 'https://54.171.140.105',
-    'http://54.171.140.105',
+    'https://172.31.12.199', 'https://54.171.140.105',
     'https://8873a462cdc54ca4a0b0438595fff4a9.vfs.cloud9.eu-west-1.amazonaws.com']
 
 ALLOWED_HOSTS = [
