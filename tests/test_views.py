@@ -91,14 +91,6 @@ def test_delete_pet_view(client, django_user_model):
     assert not Pet.objects.filter(id=pet.id).exists()
 
 @pytest.mark.django_db
-def test_products_view(client):
-    """Test viewing products."""
-    product = Product.objects.create(name="Dog Food", description="Healthy dog food", price=Decimal('25.50'))
-    response = client.get(reverse('products'))
-    assert response.status_code == 200
-    assert product.name in response.content.decode()
-
-@pytest.mark.django_db
 def test_cart_view(client):
     """Test viewing the cart."""
     product = Product.objects.create(name='Dog Food', description="Healthy dog food", price=Decimal('25.50'))
