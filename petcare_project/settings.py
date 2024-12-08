@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID', default=os.environ.get('TWILIO_ACCOUNT_SID'))
 TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN', default=os.environ.get('TWILIO_AUTH_TOKEN'))
