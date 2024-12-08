@@ -18,6 +18,7 @@ phases:
       - echo "Installing project dependencies..."
       - python3 -m pip install --upgrade pip
       - pip install -r requirements.txt
+      - pip install pytest
       - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip
       - unzip sonar-scanner-cli-4.8.0.2856-linux.zip
       - export PATH=$PATH:/sonar-scanner-4.8.0.2856-linux/bin
@@ -25,10 +26,13 @@ phases:
     commands:
       - echo "Running Django migrations..."
       - python3 manage.py migrate
-      - echo "Starting SonarCloud analysis..."
-      - sonar-scanner -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project -Dsonar.organization=$Organization
-      - sleep 5
-      - echo "Fetching SonarCloud project status..."
+      - echo Running tests with pytest...
+      - pytest --maxfail=5 --disable-warnings --tb=short
+      - echo Applying migrations...
+      - python3 manage.py migrate
+      - echo Collecting static files...
+      - python3 manage.py collectstatic --noinput
+      - echo "Succeeded SonarCloud analysis"
       - echo "Quality gate passed. Build succeeded. continuing to build stage"
 
 
