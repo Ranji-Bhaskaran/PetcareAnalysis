@@ -414,8 +414,8 @@ def payment_page(request):
             Decimal('0.00'), rounding=ROUND_DOWN)
 
     # Define tax and admin fee
-    tax_rate = Decimal('0.10')  # Tax rate as Decimal
-    admin_fee = Decimal('5.00')  # Admin fee as Decimal
+    tax_rate = Decimal('0.10')
+    admin_fee = Decimal('5.00')
 
     tax_amount = (total_price * tax_rate).quantize(Decimal('0.00'), rounding=ROUND_DOWN)
     final_total = (
@@ -448,47 +448,47 @@ def adoption_page(request):
         },
         {
             'name': 'Rex',
-            'image': 'https://i.imgur.com/n4153Cb.jpg',  # Replace with actual Imgur URL
+            'image': 'https://i.imgur.com/n4153Cb.jpg',
             'description': 'An energetic dog that loves to play fetch.',
         },
         {
             'name': 'Bella',
-            'image': 'https://i.imgur.com/heWnUlp.jpg',  # Replace with actual Imgur URL
+            'image': 'https://i.imgur.com/heWnUlp.jpg',
             'description': 'A calm and loving dog that enjoys cuddles.',
         },
         {
             'name': 'Max',
-            'image': 'https://i.imgur.com/e0mGyVb.jpg',  # Replace with actual Imgur URL
+            'image': 'https://i.imgur.com/e0mGyVb.jpg',
             'description': 'A loyal dog that loves long walks.',
         },
         {
             'name': 'Charlie',
-            'image': 'https://i.imgur.com/MQj7R55.jpg',  # Replace with actual Imgur URL
+            'image': 'https://i.imgur.com/MQj7R55.jpg',
             'description': 'A small and curious puppy looking for a family.',
         },
         {
             'name': 'Luna',
-            'image': 'https://i.imgur.com/4EzFmkk.jpg',  # Replace with actual Imgur URL
+            'image': 'https://i.imgur.com/4EzFmkk.jpg',
             'description': 'A beautiful dog with a gentle personality.',
         },
         {
             'name': 'Oliver',
-            'image': 'https://i.imgur.com/cOwc995.jpg',  # Replace with actual Imgur URL
+            'image': 'https://i.imgur.com/cOwc995.jpg',
             'description': 'A young and active dog ready for a new home.',
         },
         {
             'name': 'Tipsy',
-            'image': 'https://i.imgur.com/3YIVKQD.jpg',  # Replace with actual Imgur URL
+            'image': 'https://i.imgur.com/3YIVKQD.jpg',
             'description': 'A sweet and playful dog looking for love.',
         },
         {
             'name': 'Blue',
-            'image': 'https://i.imgur.com/xcDCoJW.jpg',  # Replace with actual Imgur URL
+            'image': 'https://i.imgur.com/xcDCoJW.jpg',
             'description': 'A playful and friendly dog looking for a home.',
         },
         {
             'name': 'Coco',
-            'image': 'https://i.imgur.com/2aoEgNx.jpg',  # Replace with actual Imgur URL
+            'image': 'https://i.imgur.com/2aoEgNx.jpg',
             'description': 'A loyal dog that loves long walks.',
         }
     ]
