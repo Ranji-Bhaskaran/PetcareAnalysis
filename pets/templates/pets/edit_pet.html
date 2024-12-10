@@ -4,51 +4,72 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Edit Pet Details</h2>
-    
-    {% if messages %}
-        <div class="alert alert-success">
-            {% for message in messages %}
-                <p>{{ message }}</p>
-            {% endfor %}
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">Edit Pet Details</h2>
         </div>
-    {% endif %}
-    
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        
-        <div class="form-group">
-            <label for="pet_name">Pet Name</label>
-            {{ form.name }}
-            {{ form.name.errors }}
-        </div>
-        
-        <div class="form-group">
-            <label for="pet_breed">Breed</label>
-            {{ form.breed }}
-            {{ form.breed.errors }}
-        </div>
+        <div class="card-body">
+            {% if messages %}
+                <div class="alert alert-success">
+                    {% for message in messages %}
+                        <p class="mb-0">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="pet_name" class="form-label">Pet Name</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <div class="text-danger small">{{ form.name.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="pet_breed" class="form-label">Breed</label>
+                    {{ form.breed }}
+                    {% if form.breed.errors %}
+                        <div class="text-danger small">{{ form.breed.errors }}</div>
+                    {% endif %}
+                </div>
 
-        <div class="form-group">
-            <label for="pet_age">Age</label>
-            {{ form.age }}
-            {{ form.age.errors }}
-        </div>
+                <div class="mb-3">
+                    <label for="pet_age" class="form-label">Age</label>
+                    {{ form.age }}
+                    {% if form.age.errors %}
+                        <div class="text-danger small">{{ form.age.errors }}</div>
+                    {% endif %}
+                </div>
 
-        <div class="form-group">
-            <label for="pet_weight">Weight (kg)</label>
-            {{ form.weight }}
-            {{ form.weight.errors }}
-        </div>
+                <div class="mb-3">
+                    <label for="pet_weight" class="form-label">Weight (kg)</label>
+                    {{ form.weight }}
+                    {% if form.weight.errors %}
+                        <div class="text-danger small">{{ form.weight.errors }}</div>
+                    {% endif %}
+                </div>
 
-        <div class="form-group">
-            <label for="pet_image">Pet Image</label>
-            {{ form.image }}
-            {{ form.image.errors }}
-        </div>
+                <div class="mb-4">
+                    <label for="pet_image" class="form-label">Pet Image</label>
+                    {{ form.image }}
+                    {% if form.image.errors %}
+                        <div class="text-danger small">{{ form.image.errors }}</div>
+                    {% endif %}
+                </div>
 
-        <button type="submit" class="btn btn-primary">Update Pet</button>
-        <a href="{% url 'pet_list' %}" class="btn btn-secondary">Cancel</a> <!-- Redirect to pet list -->
-    </form>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">
+                        Update Pet
+                    </button>
+                    <a href="{% url 'pet_list' %}" class="btn btn-secondary">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
